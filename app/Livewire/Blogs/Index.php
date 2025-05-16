@@ -2,6 +2,7 @@
 
 namespace App\Livewire\Blogs;
 
+use App\Livewire\Forms\PostForm;
 use Livewire\Component;
 use App\Models\Post;
 use Livewire\WithPagination;
@@ -12,7 +13,11 @@ class Index extends Component
     use WithPagination;
     protected $listeners = ['postSaved' => '$refresh'];
     public Post $post;
-    public $title,$content,$showForm = false;
+    public $id;
+
+    public PostForm $form;
+
+    public $title,$content,$showFormModal = false;
 
     public function delete($id)
     {
@@ -20,31 +25,23 @@ class Index extends Component
         session()->flash('message', 'Post deleted successfully.');
     }
 
+    public function openFormModal()
+    {
+        $this->reset(['title', 'content']);
+        $this->showFormModal = true;
+    }
+
     public function save()
     {
-        $this->validate();
-        
-        // $this->post->title = $this->title;
-        // $this->post->content = $this->content;
-        $this->post->create($this->all());
+        $this->form->store($this->id);
         $this->dispatch('postSaved');
         $this->reset();
     
         session()->flash('message', 'Post saved successfully.');
-        // return redirect()->route('blogs.index');
+        return redirect()->route('blogs.index');
 
     }
 
-    public function showFormModal()
-    {
-        $this->showForm = true;
-        $this->reset();
-    }
-
-    public function hideFormModal()
-    {
-        $this->showForm = false;
-    }
 
     public function edit($id = null){
 

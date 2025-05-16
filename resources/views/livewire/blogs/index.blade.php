@@ -5,6 +5,7 @@
 
     <button wire:click="edit()" class="btn btn-sm btn-primary">+ add</button>
 
+    <button class="btn btn-primary mb-3" wire:click="openFormModal">Add Post</button>
 
     <table class="table mt-4">
         <thead>
@@ -31,16 +32,19 @@
     {{ $posts->links() }}
 
 
-    @if ($showForm)
-    <div class="modal d-block" tabindex="-1" style="background: rgba(0,0,0,0.5);">
+    @if ($showFormModal)
+        <div class="modal d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5)">
             <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Add Post</h5>
-                        <button type="button" class="btn-close" wire:click="hideFormModal"></button>
+                        <button type="button" class="btn-close" wire:click="$set('showFormModal', false)"></button>
                     </div>
                     <div class="modal-body">
-                        <livewire:post-form />
+                        <livewire:blogs.form>
+                    </div>
+                    <div class="modal-footer">
+                        <button class="btn btn-secondary" wire:click="$set('showFormModal', false)">Cancel</button>
                     </div>
                 </div>
             </div>
