@@ -25,6 +25,7 @@ class Form extends Component
         $this->reset();
     
         session()->flash('message', 'Post saved successfully.');
+        $this->dispatch('navigate-to', url: route('blogs.index'));
         return redirect()->route('blogs.index');
 
     }
