@@ -22,7 +22,10 @@
             <div class="collapse navbar-collapse" id="navbarNav">
                 <ul class="navbar-nav">
                     <li class="nav-item">
-                        <a class="nav-link active" aria-current="page" href="{{ route('users.index') }}">Users</a>
+                        <a class="nav-link active" wire:navigate aria-current="page" href="{{ route('users.index') }}">Users</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link active" wire:navigate aria-current="page" href="{{ route('blogs.index') }}">Blogs</a>
                     </li>
                 </ul>
             </div>
@@ -36,7 +39,13 @@
 
     <!-- Livewire scripts -->
     @livewireScripts
-
+    <script>
+        Livewire.on('navigate-to', url => {
+            console.log(url);
+            Livewire.navigate(url)
+            // window.Livewire.navigate(url); // يعمل فقط مع wire:navigate (SPA)
+        });
+    </script>
     <!-- Bootstrap JS (use CDN or compiled version) -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
