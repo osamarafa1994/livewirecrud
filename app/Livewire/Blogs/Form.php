@@ -8,8 +8,24 @@ use App\Livewire\Forms\PostForm;
 
 class Form extends Component
 {
+    protected $listeners = ['item_edit' => 'loadPost'];
+
     public PostForm $form;
     public $id;
+
+
+    public function loadPost($id = null)
+    {
+        $this->post = Post::findOrFail($id);
+        $this->form->setPost($this->post);
+    }
+    public function delete($id)
+    {
+        Post::findOrFail($id)->delete();
+        session()->flash('message', 'Post deleted successfully.');
+        return redirect()->route('blogs.index');
+
+    }
 
     public function mount($id = null)
     {
@@ -21,7 +37,7 @@ class Form extends Component
     public function save()
     {
         $this->form->store($this->id);
-        $this->dispatch('postSaved');
+        $this->dispatch(event: 'postSaved');
         $this->reset();
     
         session()->flash('message', 'Post saved successfully.');
