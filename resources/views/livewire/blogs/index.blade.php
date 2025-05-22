@@ -3,9 +3,10 @@
         <div class="alert alert-success">{{ session('message') }}</div>
     @endif
 
+
     <a  href="{{route('blogs.edit')}}" wire:navigate class="btn btn-sm btn-primary">+ add</a>
 
-    <button class="btn btn-primary mb-3" wire:click="openFormModal">Add Post</button>
+    <!-- <button class="btn btn-primary mb-3" wire:click="openFormModal">Add Post</button> -->
 
     <table class="table mt-4">
         <thead>
@@ -21,6 +22,7 @@
                     <td>{{ $post->title }}</td>
                     <td>{{ Str::limit($post->content, 50) }}</td>
                     <td>
+
                         <button href="{{route('blogs.edit',$post->id)}}" wire:navigate class="btn btn-sm btn-primary">Edit</button>
                         <button wire:click="delete({{ $post->id }})" class="btn btn-sm btn-danger">Delete</button>
                     </td>
@@ -31,7 +33,7 @@
 
     {{ $posts->links() }}
 
-
+  
     @if ($showFormModal)
         <div class="modal d-block" tabindex="-1" style="background-color: rgba(0,0,0,0.5)">
             <div class="modal-dialog">

@@ -11,13 +11,19 @@ class Index extends Component
 {
 
     use WithPagination;
+    protected $paginationTheme='bootstrap';
     protected $listeners = ['postSaved' => '$refresh'];
     public Post $post;
     public $id;
+    public $count;
 
     public PostForm $form;
 
     public $title,$content,$showFormModal = false;
+
+    public function mount(){
+        $this->count = 0;
+    }
 
     public function delete($id)
     {
@@ -31,21 +37,11 @@ class Index extends Component
         $this->showFormModal = true;
     }
 
-    public function save()
-    {
-        $this->form->store($this->id);
-        $this->dispatch('postSaved');
-        $this->reset();
-    
-        session()->flash('message', 'Post saved successfully.');
-        return redirect()->route('blogs.index');
-
-    }
 
 
     public function edit($id = null){
-
-       return redirect()->route('blogs.edit',$id);
+        $this->showFormModal = true;
+        $this->dispatch('item_edit', $id);
     }
 
     public function render()
